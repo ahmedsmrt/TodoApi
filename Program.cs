@@ -19,7 +19,7 @@ builder.Services.AddOpenApiDocument(config =>
 
 var app = builder.Build();
 
-// The previous code enables the Swagger middleware for serving the generated JSON document and the Swagger UI. Swagger is only enabled in a development environment. Enabling Swagger in a production environment could expose potentially sensitive details about the API's structure and implementation.
+// 
 if (app.Environment.IsDevelopment())
 {
     app.UseOpenApi();
