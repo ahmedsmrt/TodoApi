@@ -1,0 +1,9 @@
+Notes while developing this simple Todo App:
+    - First thing i've noticed is that when creating an application using the .Net suite it's easier
+    if you use a template or package as a starting point.
+
+    - Second thing i've noticed is that it's important to make sure that when creating an application
+    that creates api endpoints and stores data in a database an easy way to do so in a simple project
+    is to use the packages for EF(Entity Framework) and EF diagnostic
+
+    - It's also good to know that when breaking down the project structure you need a database.cs file, a program.cs file and a file that models the data managed by the application. I'm assuming this eventually translates into models and controller directories as projects increase in complexity.
