@@ -1,9 +1,36 @@
 using Microsoft.EntityFrameworkCore;
+using NSwag.AspNetCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.AddDbContext<TodoDb>(opt => opt.UseInMemoryDatabase("TodoList"));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+// Enables the API Explorer, which is a service that provides metadata about the HTTP API. The API Explorer is used by Swagger to generate the Swagger document.
+builder.Services.AddEndpointsApiExplorer();
+//  Adds the Swagger OpenAPI document generator to the application services and configures it to provide more information about the API, such as its title and version. 
+builder.Services.AddOpenApiDocument(config =>
+{
+    config.DocumentName = "TodoAPI";
+    config.Title = "TodoAPI v1";
+    config.Version = "v1";
+});
+
 var app = builder.Build();
+
+// The previous code enables the Swagger middleware for serving the generated JSON document and the Swagger UI. Swagger is only enabled in a development environment. Enabling Swagger in a production environment could expose potentially sensitive details about the API's structure and implementation.
+if (app.Environment.IsDevelopment())
+{
+    app.UseOpenApi();
+    app.UseSwaggerUi(config =>
+    {
+        config.DocumentTitle = "TodoAPI";
+        config.Path = "/swagger";
+        config.DocumentPath = "/swagger/{documentName}/swagger.json";
+        config.DocExpansion = "list";
+    });
+}
 
 app.MapGet("/todoitems", async (TodoDb db) =>
     await db.Todos.ToListAsync());
